@@ -24,7 +24,7 @@ async function cargarContactos() {
 
     try {
 
-        const respuesta = await fetch("http://localhost:3000/api/contactos", {
+        const respuesta = await fetch("https://vrsoftware.onrender.com/api/contactos", {
 
             headers: {
 
@@ -124,7 +124,7 @@ async function eliminar(id) {
 
         const respuesta = await fetch(
 
-            `http://localhost:3000/api/contactos/${id}`,
+            `https://vrsoftware.onrender.com/api/contactos/${id}`,
 
             {
 
