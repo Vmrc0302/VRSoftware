@@ -17,19 +17,29 @@ exports.enviarMensaje = async (req, res) => {
             mensaje
         } = req.body;
 
-        await enviarCorreo({
-            nombre,
-            correo,
-            empresa,
-            mensaje
-        });
-
+        // Primero guardar en la base de datos
         await guardarContacto({
             nombre,
             correo,
             empresa,
             mensaje
         });
+
+        // Intentar enviar el correo, pero sin detener el proceso si falla
+        try {
+
+            await enviarCorreo({
+                nombre,
+                correo,
+                empresa,
+                mensaje
+            });
+
+        } catch (error) {
+
+            console.error("Error enviando correo:", error.message);
+
+        }
 
         res.json({
             ok: true,
@@ -42,7 +52,7 @@ exports.enviarMensaje = async (req, res) => {
 
         res.status(500).json({
             ok: false,
-            mensaje: "❌ Error al enviar el mensaje."
+            mensaje: "❌ Error al guardar el mensaje."
         });
 
     }
