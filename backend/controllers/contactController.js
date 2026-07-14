@@ -1,5 +1,3 @@
-const enviarCorreo = require("../services/emailService");
-
 const {
     guardarContacto,
     obtenerContactos,
@@ -17,7 +15,6 @@ exports.enviarMensaje = async (req, res) => {
             mensaje
         } = req.body;
 
-        // Primero guardar en la base de datos
         await guardarContacto({
             nombre,
             correo,
@@ -25,25 +22,9 @@ exports.enviarMensaje = async (req, res) => {
             mensaje
         });
 
-        // Intentar enviar el correo, pero sin detener el proceso si falla
-        try {
-
-            await enviarCorreo({
-                nombre,
-                correo,
-                empresa,
-                mensaje
-            });
-
-        } catch (error) {
-
-            console.error("Error enviando correo:", error.message);
-
-        }
-
         res.json({
             ok: true,
-            mensaje: "✅ Mensaje enviado correctamente."
+            mensaje: "✅ Mensaje guardado correctamente."
         });
 
     } catch (error) {
